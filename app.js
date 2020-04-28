@@ -1,31 +1,27 @@
-const req= require('request'),
-    cheerio=require('cheerio'),
-    fs=require('fs');
+const cheerio=require('cheerio');
 
-let elems=[];
+const getContent = require('./helpers/puppeteer');
+const listHandler = require('./handlers/listHandler');
+
 let url='https://kharkov.internet-bilet.ua/#all-events';
-let path= 'file.json';
 
-req (url,function(err,res,body){
-    if(!err && res.statusCode===200) {
-        console.log('succes');
-        let $=cheerio.load(body);
+(async function main(){
+    try{
+        const pageContent= await getContent(url);
+        let elems=[];
 
-        $('.event-title a').each(function(i){
+        let $=cheerio.load(pageContent);
+        $('tr.all-events>td.info-item>div.event-title>a').each(function(i, name){
             elems[i]={};
-            elems[i].id=i;
-            elems[i].link=this.attribs.href;
+            elems[i].link=$(name).attr('href');
+            elems[i].title=$(name).attr('title');
+
         });
+        console.log(elems.length);
+        // await listHandler(elems);
+        
+    } catch (err){
+        console.log(err.message);
 
-        fs.writeFile(path, JSON.stringify(elems),(error)=>{
-            if(error){
-                console.log(error.message);
-            };
-            console.log('no error');
-        })
-
-
-    }else{
-        console.log('no succes');  
     }
-})
+})()
