@@ -2,7 +2,7 @@
   "name": "parser",
   "version": "1.0.0",
   "description": "",
-  "main": "parse.js",
+  "main": "app.js",
   "dependencies": {
     "anymatch": "^3.1.1",
     "cheerio": "^1.0.0-rc.3",
@@ -31,6 +31,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
