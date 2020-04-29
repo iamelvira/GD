@@ -17,13 +17,13 @@ app.get('/', function(req, res){
 
 io.on('connection', function(socket){
     socket.on('message', function(msg){
-        console.log('socket start');
-       main(url);
+        console.log('Socket start: ',msg);
+       main(url,socket);
     });
 });
 
 
-http.listen(3000);
+http.listen(8000);
 
 
 

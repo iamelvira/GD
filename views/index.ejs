@@ -9,8 +9,8 @@
         .btn {padding: 20px;display: block;font-family: sans-serif; font-weight: bold; font-size: 30px; color:#edf7ea; border: none;
              border-radius: 5px; background-color: #67c329;}
 
-        .item{display:flex;}
-        .inner{margin:10px;}
+        .item{display:flex; align-items: center;}
+        .inner {padding:10px; font-family: sans-serif; font-weight: bold; font-size: 20px;color: #67c329}
     </style>
     <title>Document</title>
 </head>
@@ -29,17 +29,17 @@
             let id=1;
 
             $('#show').click(function(){
-                socket.emit('message', 'some');
+                socket.emit('message', 'connected');
+                $('#show').css('display', 'none');
                 return false;
             });
             
             socket.on('message', function(msg){
-                console.log(msg);
 
                 $('.events').append($(`<div class="item ${id}">`));
 
                 $(`.${id}`).append($(`<p class="inner ${id}${id}">`));
-                $(`.${id}${id}`).append($(`<img src="${msg.imgSrc}">`));
+                $(`.${id}${id}`).append($(`<a href="${msg.link}" target="_blank"> <img src='${msg.imgSrс}'> </a>`));
                 $(`.${id}`).append($('<p class="inner">').text(msg.title));
                 $(`.${id}`).append($('<p class="inner">').text(msg.date));
                 $(`.${id}`).append($('<p class="inner">').text(msg.price));

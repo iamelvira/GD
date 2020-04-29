@@ -9,9 +9,9 @@ module.exports = hasPriority = async function(str){
         }
 
         return false;
-    }catch(err){
-        throw err;
-    }
+    }catch(e) {
+        console.log('Error in some unic identifier: \n', e);
+      }
 }
 
 

@@ -19,9 +19,11 @@ PAGE_PUPPETEER_OPTS = {
 
 
 const clickNextButton = async (page) => {
-    try{await page.click('#moreMonthEventsBtn');}catch(err){
-        throw err;
-    }
+    try{
+        await page.click('#moreMonthEventsBtn');
+    }catch(e) {
+        console.log('Error in some unic identifier: \n', e);
+      }
 };
 
 async function createData(page){
@@ -34,7 +36,7 @@ async function createData(page){
         const len=images.length;
         for(let i=0; i<len; i++) {
             elems[i]={};
-            elems[i].imgSrs='https://kharkov.internet-bilet.ua'+await page.evaluate(el => el.getAttribute('src'), images[i]);
+            elems[i].imgSrс='https://kharkov.internet-bilet.ua'+await page.evaluate(el => el.getAttribute('src'), images[i]);
             elems[i].link = await page.evaluate(el => el.getAttribute('href'), elementLinks[i]);
             elems[i].title = await page.evaluate(el => el.getAttribute('title'), elementLinks[i]);
             elems[i].date =  await page.evaluate(el => el.textContent, dates[i]);
@@ -43,9 +45,9 @@ async function createData(page){
 
         return elems;
 
-    }catch(err){
-        throw err;
-    }
+    }catch(e) {
+        console.log('Error in some unic identifier: \n', e);
+      }
 };
 
 async function updateData(page){
@@ -58,9 +60,9 @@ async function updateData(page){
         }
         return str;
 
-    }catch(err){
-        throw err;
-    }
+    }catch(e) {
+        console.log('Error in some unic identifier: \n', e);
+      }
 };
 
 
@@ -87,7 +89,7 @@ module.exports = getContent = async function (url,elems){
         
         browser.close();
         return data;
-    } catch (err){
-        throw err
-    }
+    } catch(e) {
+        console.log('Error in some unic identifier: \n', e);
+      }
 }
