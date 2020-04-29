@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{background-color:#e0ffd7;}
+        .container {padding:30px;}
+        .btn {padding: 20px;display: block;font-family: sans-serif; font-weight: bold; font-size: 30px; color:#edf7ea; border: none;
+             border-radius: 5px; background-color: #67c329;}
+
+        .item{display:flex;}
+        .inner{margin:10px;}
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <button type="button" id="show" class="btn">Show Interesting events</button>
+        <div class="events">
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
+    <script>
+        $(function () {
+            var socket = io();
+            let id=1;
+
+            $('#show').click(function(){
+                socket.emit('message', 'some');
+                return false;
+            });
+            
+            socket.on('message', function(msg){
+                console.log(msg);
+
+                $('.events').append($(`<div class="item ${id}">`));
+
+                $(`.${id}`).append($(`<p class="inner ${id}${id}">`));
+                $(`.${id}${id}`).append($(`<img src="${msg.imgSrc}">`));
+                $(`.${id}`).append($('<p class="inner">').text(msg.title));
+                $(`.${id}`).append($('<p class="inner">').text(msg.date));
+                $(`.${id}`).append($('<p class="inner">').text(msg.price));
+                id++;
+            });
+        });
+    </script>
+</body>
+</html>
