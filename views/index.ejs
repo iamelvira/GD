@@ -43,6 +43,22 @@
                 c.css('display', 'block');
                 return false;
             });
+
+            function renderEv(msg){
+                const { link, title, imgSrc, date, price} = msg.data;
+                        evs.append($(`
+                            <div class="item">
+                                <p class="inner">
+                                    <a href="${link}" target="_blank">
+                                        <img src="${imgSrc}" alt="#">
+                                    </a>
+                                </p>
+                                <p class="inner"> ${title} </p>
+                                <p class="inner"> ${date} </p>
+                                <p class="inner"> ${price} </p>
+                            </div>`));
+
+            };
             
             socket.on('message', function(msg){
                 switch (msg.type) {
@@ -57,18 +73,7 @@
                         c2.text(msg.data);
                         break;
                     default:
-                        const { link, title, imgSrc, date, price} = msg.data;
-                        evs.append($(`
-                            <div class="item">
-                                <p class="inner">
-                                    <a href="${link}" target="_blank">
-                                        <img src="${imgSrc}" alt="#">
-                                    </a>
-                                </p>
-                                <p class="inner"> ${title} </p>
-                                <p class="inner"> ${date} </p>
-                                <p class="inner"> ${price} </p>
-                            </div>`));
+                        renderEv(msg);
                 }               
             });
         });

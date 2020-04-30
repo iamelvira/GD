@@ -14,7 +14,7 @@ module.exports = listHandler = async function (data, socket){
         for (const elem of data){
 
             const description = await getContent(elem.link,data);
-            elem.price?elem.priority=await hasPriority(description):elem.priority=false;
+            elem.priority = elem.price ? hasPriority(description ) : false;
 
             if (elem.priority){
                 socket.emit('message', {
@@ -35,7 +35,6 @@ module.exports = listHandler = async function (data, socket){
             type:'end',
             data:'End parsing'
         });
-        return data;
     } catch(e) {
         console.log(e);
     }

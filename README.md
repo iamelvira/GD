@@ -1,3 +1,6 @@
+Node v10.16.0
+Npm 6.9.0
+
 Parser of online ticketing service
 
 1. Set the node.js with npm

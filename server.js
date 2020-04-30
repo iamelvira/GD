@@ -21,7 +21,7 @@ io.on('connection', function(socket){
 });
 
 
-http.listen(8000, console.log('\n \n * Server started port 8000 *\n \n'));
+http.listen(8000, console.log('\n \n * Server started: port 8000 *\n \n'));
 
 
 
