@@ -1,8 +1,6 @@
 const getContent = require('./helpers/puppeteer');
 const listHandler = require('./handlers/listHandler');
 
-
-
 module.exports= main = async function (url, socket){
     try{
         console.log('Start parsing main page');
@@ -10,6 +8,6 @@ module.exports= main = async function (url, socket){
         listHandler(elems,socket);
         
     } catch(e) {
-        console.log('Error in some unic identifier: \n', e);
-      }
+        console.log(e);
+    }
 };

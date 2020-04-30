@@ -4,48 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body{background-color:#e0ffd7;}
-        .container {padding:30px;}
-        .btn {padding: 20px;display: block;font-family: sans-serif; font-weight: bold; font-size: 30px; color:#edf7ea; border: none;
-             border-radius: 5px; background-color: #67c329;}
-
-        .item{display:flex; align-items: center;}
-        .inner {padding:10px; font-family: sans-serif; font-weight: bold; font-size: 20px;color: #67c329}
+        body { background-color: #e0ffd7}
+        .container { padding: 30px}
+        .btn { padding: 20px; display: block; font-family: sans-serif; font-weight: bold; font-size: 30px; color: #edf7ea; border: none; border-radius: 5px; background-color: #67c329}
+        .item { display: flex; align-items: center}
+        .inner {padding: 10px; font-family: sans-serif; font-weight: bold; font-size: 20px;color: #67c329}
+        .counter {display: none}
     </style>
     <title>Document</title>
 </head>
 <body>
     <div class="container">
         <button type="button" id="show" class="btn">Show Interesting events</button>
-        <div class="events">
-        </div>
+        <div class="inner counter">Total events found:  <span class="counter1">0</span> </div>
+        <div class="inner counter">Pocessed events: <span class="counter2">0</span> </div>
+        <div class="inner message"></div>
+        <div class="events"></div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
-    <script>
-        $(function () {
-            var socket = io();
-            let id=1;
 
-            $('#show').click(function(){
+    <script>
+
+        $(function () {
+            const socket = io();
+            const evs = $('.events');
+            const c = $('.counter');
+            const c1 = $('.counter1');
+            const c2 = $('.counter2');
+            const m = $('.message');
+            const sh = $('#show');
+
+            sh.click(function(){
                 socket.emit('message', 'connected');
-                $('#show').css('display', 'none');
+                sh.css('display', 'none');
+                c.css('display', 'block');
                 return false;
             });
             
             socket.on('message', function(msg){
-
-                $('.events').append($(`<div class="item ${id}">`));
-
-                $(`.${id}`).append($(`<p class="inner ${id}${id}">`));
-                $(`.${id}${id}`).append($(`<a href="${msg.link}" target="_blank"> <img src='${msg.imgSrс}'> </a>`));
-                $(`.${id}`).append($('<p class="inner">').text(msg.title));
-                $(`.${id}`).append($('<p class="inner">').text(msg.date));
-                $(`.${id}`).append($('<p class="inner">').text(msg.price));
-                id++;
+                switch (msg.type) {
+                    case "start":
+                        c1.text(msg.data);
+                        break;
+                    case "end":
+                        m.text(msg.data);
+                        c2.css('display', 'none');
+                        break;
+                    case "info":
+                        c2.text(msg.data);
+                        break;
+                    default:
+                        const { link, title, imgSrc, date, price} = msg.data;
+                        evs.append($(`
+                            <div class="item">
+                                <p class="inner">
+                                    <a href="${link}" target="_blank">
+                                        <img src="${imgSrc}" alt="#">
+                                    </a>
+                                </p>
+                                <p class="inner"> ${title} </p>
+                                <p class="inner"> ${date} </p>
+                                <p class="inner"> ${price} </p>
+                            </div>`));
+                }               
             });
         });
+
     </script>
 </body>
 </html>
